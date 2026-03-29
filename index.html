@@ -315,6 +315,7 @@
   }
 
   .tag-futebol { background: rgba(0,200,83,0.8); }
+  .tag-futmundo { background: rgba(33,150,243,0.8); }
   .tag-nba { background: rgba(200,16,46,0.8); }
   .tag-f1 { background: rgba(255,140,0,0.8); }
   .tag-ufc { background: rgba(212,175,55,0.8); }
@@ -510,10 +511,11 @@
   </div>
 
   <div class="sport-tabs">
-    <div class="tab active" onclick="setEsporte(this, 'futebol', '⚽ melhores momentos brasileirao highlights')">⚽ Futebol</div>
-    <div class="tab" onclick="setEsporte(this, 'nba', '🏀 NBA highlights best moments')">🏀 NBA</div>
-    <div class="tab" onclick="setEsporte(this, 'f1', '🏎️ formula 1 melhores momentos highlights')">🏎️ F1</div>
-    <div class="tab" onclick="setEsporte(this, 'ufc', '🥊 UFC highlights knockouts best moments')">🥊 UFC</div>
+    <div class="tab active" onclick="setEsporte(this, 'futebol', 'melhores momentos brasileirao highlights')">⚽ Futebol BR</div>
+    <div class="tab" onclick="setEsporte(this, 'futmundo', 'football highlights champions league premier league goals')">🌍 Fut. Mundo</div>
+    <div class="tab" onclick="setEsporte(this, 'nba', 'NBA highlights best moments')">🏀 NBA</div>
+    <div class="tab" onclick="setEsporte(this, 'f1', 'formula 1 melhores momentos highlights')">🏎️ F1</div>
+    <div class="tab" onclick="setEsporte(this, 'ufc', 'UFC highlights knockouts best moments')">🥊 UFC</div>
   </div>
 </div>
 
@@ -615,12 +617,12 @@ function setEsporte(el, esporte, query) {
 }
 
 function getTagClass(esporte) {
-  const map = { futebol: 'tag-futebol', nba: 'tag-nba', f1: 'tag-f1', ufc: 'tag-ufc' };
+  const map = { futebol: 'tag-futebol', futmundo: 'tag-futmundo', nba: 'tag-nba', f1: 'tag-f1', ufc: 'tag-ufc' };
   return map[esporte] || 'tag-futebol';
 }
 
 function getTagLabel(esporte) {
-  const map = { futebol: '⚽ Futebol', nba: '🏀 NBA', f1: '🏎️ F1', ufc: '🥊 UFC' };
+  const map = { futebol: '⚽ Futebol BR', futmundo: '🌍 Fut. Mundo', nba: '🏀 NBA', f1: '🏎️ F1', ufc: '🥊 UFC' };
   return map[esporte] || esporte;
 }
 
