@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>HighlightZ — Curadoria</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c28;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0f0f5;
+    --muted: #6b6b80;
+    --accent: #ff3c3c;
+    --green: #00e676;
+    --yellow: #ffd600;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
+    padding: 20px 16px 12px;
+    background: linear-gradient(180deg, rgba(255,60,60,0.12) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    background-color: rgba(10,10,15,0.92);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ff3c3c, #ff8c00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface);
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+
+  /* SPORT TABS */
+  .sport-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .sport-tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* SEARCH CONFIG */
+  .config-panel {
+    margin: 12px 16px;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .config-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .config-row:last-child { border-bottom: none; }
+
+  .config-label {
+    font-size: 12px;
+    color: var(--muted);
+    width: 70px;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+
+  .config-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+  }
+  .config-input:focus { border-color: rgba(255,60,60,0.4); }
+
+  .config-select {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .btn-buscar {
+    width: calc(100% - 32px);
+    margin: 0 16px 12px;
+    padding: 14px;
+    background: linear-gradient(135deg, #ff3c3c, #ff6b00);
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-buscar:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-buscar:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 12px;
+  }
+
+  .stat-chip {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+  }
+  .stat-num.green { color: var(--green); }
+  .stat-num.red { color: var(--accent); }
+  .stat-num.yellow { color: var(--yellow); }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px 10px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* VIDEO CARD */
+  .video-card {
+    margin: 0 16px 10px;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: all 0.2s;
+    animation: fadeUp 0.3s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .video-card.aprovado {
+    border-color: rgba(0,230,118,0.3);
+    background: rgba(0,230,118,0.05);
+  }
+
+  .video-card.rejeitado {
+    opacity: 0.3;
+    border-color: rgba(255,60,60,0.2);
+  }
+
+  .thumb-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: var(--surface2);
+    cursor: pointer;
+  }
+
+  .thumb-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play-btn {
+    width: 48px; height: 48px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.2s;
+  }
+
+  .thumb-duration {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .sport-tag {
+    position: absolute;
+    top: 8px; left: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 100px;
+    color: #fff;
+  }
+
+  .tag-futebol { background: rgba(0,200,83,0.8); }
+  .tag-nba { background: rgba(200,16,46,0.8); }
+  .tag-f1 { background: rgba(255,140,0,0.8); }
+  .tag-ufc { background: rgba(212,175,55,0.8); }
+
+  .card-body { padding: 12px 14px; }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .views-highlight {
+    color: var(--yellow);
+    font-weight: 600;
+  }
+
+  /* ACTION BUTTONS */
+  .card-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-aprovar {
+    flex: 1;
+    padding: 10px;
+    background: rgba(0,230,118,0.15);
+    border: 1px solid rgba(0,230,118,0.3);
+    border-radius: 10px;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-aprovar:hover { background: rgba(0,230,118,0.25); }
+
+  .btn-rejeitar {
+    flex: 1;
+    padding: 10px;
+    background: rgba(255,60,60,0.1);
+    border: 1px solid rgba(255,60,60,0.2);
+    border-radius: 10px;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-rejeitar:hover { background: rgba(255,60,60,0.2); }
+
+  .btn-yt {
+    padding: 10px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .status-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    width: 100%;
+  }
+  .status-aprovado { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
+  .status-rejeitado { background: rgba(255,60,60,0.08); color: var(--accent); border: 1px solid rgba(255,60,60,0.15); }
+
+  /* LOADING */
+  .loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    gap: 16px;
+  }
+  .loading.show { display: flex; }
+
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 32px;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .empty-icon { font-size: 40px; opacity: 0.3; }
+  .empty-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+  /* APROVADOS SECTION */
+  .aprovados-section {
+    margin-top: 8px;
+    padding-bottom: 32px;
+  }
+
+  .section-divider {
+    margin: 16px 16px 12px;
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* TOAST */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(30,30,40,0.95);
+    backdrop-filter: blur(20px);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    opacity: 0;
+    transition: all 0.3s;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 999;
+    max-width: 90vw;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">HighlightZ</div>
+    <div class="header-badge">⚙️ Painel de Curadoria</div>
+  </div>
+
+  <div class="sport-tabs">
+    <div class="tab active" onclick="setEsporte(this, 'futebol', '⚽ melhores momentos brasileirao highlights')">⚽ Futebol</div>
+    <div class="tab" onclick="setEsporte(this, 'nba', '🏀 NBA highlights best moments')">🏀 NBA</div>
+    <div class="tab" onclick="setEsporte(this, 'f1', '🏎️ formula 1 melhores momentos highlights')">🏎️ F1</div>
+    <div class="tab" onclick="setEsporte(this, 'ufc', '🥊 UFC highlights knockouts best moments')">🥊 UFC</div>
+  </div>
+</div>
+
+<div style="height:12px"></div>
+
+<!-- CONFIG -->
+<div class="config-panel">
+  <div class="config-row">
+    <div class="config-label">Busca</div>
+    <input class="config-input" id="queryInput" value="melhores momentos brasileirao highlights" placeholder="termo de busca...">
+  </div>
+  <div class="config-row">
+    <div class="config-label">Ordenar</div>
+    <select class="config-select" id="orderSelect">
+      <option value="relevance">Relevância</option>
+      <option value="viewCount">Mais visualizados</option>
+      <option value="date">Mais recentes</option>
+      <option value="rating">Melhor avaliados</option>
+    </select>
+  </div>
+  <div class="config-row">
+    <div class="config-label">Período</div>
+    <select class="config-select" id="periodoSelect">
+      <option value="7">Últimos 7 dias</option>
+      <option value="30">Último mês</option>
+      <option value="90">Últimos 3 meses</option>
+      <option value="365">Último ano</option>
+    </select>
+  </div>
+  <div class="config-row">
+    <div class="config-label">Duração</div>
+    <select class="config-select" id="duracaoSelect">
+      <option value="medium">Média (4–20 min)</option>
+      <option value="short">Curta (até 4 min)</option>
+      <option value="long">Longa (20+ min)</option>
+      <option value="any">Qualquer</option>
+    </select>
+  </div>
+</div>
+
+<button class="btn-buscar" id="btnBuscar" onclick="buscarVideos()">
+  🔍 BUSCAR HIGHLIGHTS
+</button>
+
+<!-- STATS -->
+<div class="stats-bar" id="statsBar" style="display:none">
+  <div class="stat-chip">
+    <div class="stat-num yellow" id="statTotal">0</div>
+    <div class="stat-label">Encontrados</div>
+  </div>
+  <div class="stat-chip">
+    <div class="stat-num green" id="statAprov">0</div>
+    <div class="stat-label">Aprovados</div>
+  </div>
+  <div class="stat-chip">
+    <div class="stat-num red" id="statRej">0</div>
+    <div class="stat-label">Rejeitados</div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">Buscando os melhores highlights<br>no YouTube...</div>
+</div>
+
+<!-- RESULTS -->
+<div id="results"></div>
+
+<!-- APROVADOS -->
+<div class="aprovados-section" id="aprovadosSection" style="display:none">
+  <hr class="section-divider">
+  <div class="section-header">
+    <div class="section-title">✅ Aprovados para o App</div>
+    <div class="section-count" id="aprovadosCount">0 vídeos</div>
+  </div>
+  <div id="aprovadosList"></div>
+  <div style="padding: 12px 16px 0;">
+    <button class="btn-buscar" onclick="exportarAprovados()" style="background: linear-gradient(135deg, #00c853, #009624);">
+      📋 EXPORTAR LISTA
+    </button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const API_KEY = 'AIzaSyC-XOp3H-psfOVcDXCMqvyfPVREO-01-s0';
+let esporteAtivo = 'futebol';
+let aprovados = [];
+let rejeitados = [];
+let videosEncontrados = [];
+
+function setEsporte(el, esporte, query) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  esporteAtivo = esporte;
+  document.getElementById('queryInput').value = query;
+}
+
+function getTagClass(esporte) {
+  const map = { futebol: 'tag-futebol', nba: 'tag-nba', f1: 'tag-f1', ufc: 'tag-ufc' };
+  return map[esporte] || 'tag-futebol';
+}
+
+function getTagLabel(esporte) {
+  const map = { futebol: '⚽ Futebol', nba: '🏀 NBA', f1: '🏎️ F1', ufc: '🥊 UFC' };
+  return map[esporte] || esporte;
+}
+
+function formatViews(n) {
+  if (!n) return '—';
+  n = parseInt(n);
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M views';
+  if (n >= 1000) return (n/1000).toFixed(0) + 'k views';
+  return n + ' views';
+}
+
+function formatDate(str) {
+  if (!str) return '';
+  const d = new Date(str);
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function getPublishedAfter(dias) {
+  const d = new Date();
+  d.setDate(d.getDate() - parseInt(dias));
+  return d.toISOString();
+}
+
+async function buscarVideos() {
+  const query = document.getElementById('queryInput').value.trim();
+  if (!query) return;
+
+  const order = document.getElementById('orderSelect').value;
+  const periodo = document.getElementById('periodoSelect').value;
+  const duracao = document.getElementById('duracaoSelect').value;
+  const publishedAfter = getPublishedAfter(periodo);
+
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('statsBar').style.display = 'none';
+  document.getElementById('btnBuscar').disabled = true;
+  videosEncontrados = [];
+
+  try {
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&order=${order}&publishedAfter=${publishedAfter}&videoDuration=${duracao}&maxResults=10&key=${API_KEY}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.error) {
+      showToast('Erro: ' + data.error.message);
+      document.getElementById('loading').classList.remove('show');
+      document.getElementById('btnBuscar').disabled = false;
+      return;
+    }
+
+    const ids = data.items.map(i => i.id.videoId).join(',');
+
+    // Buscar detalhes (views, duração)
+    const detailUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${ids}&key=${API_KEY}`;
+    const detailRes = await fetch(detailUrl);
+    const detailData = await detailRes.json();
+
+    const detailMap = {};
+    detailData.items.forEach(i => { detailMap[i.id] = i; });
+
+    videosEncontrados = data.items.map(item => {
+      const vid = item.id.videoId;
+      const detail = detailMap[vid] || {};
+      return {
+        id: vid,
+        title: item.snippet.title,
+        channel: item.snippet.channelTitle,
+        date: item.snippet.publishedAt,
+        thumb: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
+        views: detail.statistics?.viewCount,
+        duration: formatDuration(detail.contentDetails?.duration),
+        esporte: esporteAtivo,
+        url: `https://www.youtube.com/watch?v=${vid}`
+      };
+    });
+
+    document.getElementById('loading').classList.remove('show');
+    renderResults();
+    updateStats();
+    document.getElementById('statsBar').style.display = 'flex';
+
+  } catch(e) {
+    document.getElementById('loading').classList.remove('show');
+    showToast('Erro de conexão. Tente novamente.');
+  }
+
+  document.getElementById('btnBuscar').disabled = false;
+}
+
+function formatDuration(iso) {
+  if (!iso) return '';
+  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!match) return '';
+  const h = parseInt(match[1] || 0);
+  const m = parseInt(match[2] || 0);
+  const s = parseInt(match[3] || 0);
+  if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+
+function renderResults() {
+  const container = document.getElementById('results');
+  
+  if (videosEncontrados.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">Nenhum vídeo encontrado.<br>Tente outros termos de busca.</div></div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="section-header">
+      <div class="section-title">📋 Para revisão</div>
+      <div class="section-count">${videosEncontrados.length} vídeos</div>
+    </div>
+  `;
+
+  videosEncontrados.forEach((v, i) => {
+    if (rejeitados.includes(v.id)) return;
+    const isAprovado = aprovados.find(a => a.id === v.id);
+    
+    const card = document.createElement('div');
+    card.className = 'video-card' + (isAprovado ? ' aprovado' : '');
+    card.id = 'card-' + v.id;
+    card.style.animationDelay = (i * 0.05) + 's';
+
+    card.innerHTML = `
+      <div class="thumb-wrap" onclick="abrirYT('${v.url}')">
+        <img src="${v.thumb}" alt="${v.title}" loading="lazy" onerror="this.style.display='none'">
+        <div class="thumb-overlay">
+          <div class="play-btn">▶</div>
+        </div>
+        ${v.duration ? `<div class="thumb-duration">${v.duration}</div>` : ''}
+        <div class="sport-tag ${getTagClass(v.esporte)}">${getTagLabel(v.esporte)}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${v.title}</div>
+        <div class="card-meta">
+          <div class="meta-item">📺 ${v.channel}</div>
+          ${v.views ? `<div class="meta-item views-highlight">👁 ${formatViews(v.views)}</div>` : ''}
+          <div class="meta-item">📅 ${formatDate(v.date)}</div>
+        </div>
+        <div class="card-actions" id="actions-${v.id}">
+          ${isAprovado
+            ? `<div class="status-badge status-aprovado">✅ Aprovado para o app</div>`
+            : `
+              <button class="btn-aprovar" onclick="aprovar('${v.id}')">✅ Aprovar</button>
+              <button class="btn-rejeitar" onclick="rejeitar('${v.id}')">✕ Rejeitar</button>
+              <a class="btn-yt" href="${v.url}" target="_blank">▶</a>
+            `
+          }
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function aprovar(id) {
+  const v = videosEncontrados.find(x => x.id === id);
+  if (!v || aprovados.find(a => a.id === id)) return;
+  aprovados.push(v);
+  
+  const card = document.getElementById('card-' + id);
+  card.classList.add('aprovado');
+  document.getElementById('actions-' + id).innerHTML = `<div class="status-badge status-aprovado">✅ Aprovado para o app</div>`;
+  
+  updateStats();
+  renderAprovados();
+  showToast('✅ Aprovado! ' + v.title.substring(0, 40) + '...');
+}
+
+function rejeitar(id) {
+  rejeitados.push(id);
+  const card = document.getElementById('card-' + id);
+  card.classList.add('rejeitado');
+  document.getElementById('actions-' + id).innerHTML = `<div class="status-badge status-rejeitado">✕ Rejeitado</div>`;
+  setTimeout(() => { card.style.display = 'none'; }, 400);
+  updateStats();
+  showToast('Vídeo removido da lista.');
+}
+
+function updateStats() {
+  const pendentes = videosEncontrados.filter(v => !aprovados.find(a=>a.id===v.id) && !rejeitados.includes(v.id)).length;
+  document.getElementById('statTotal').textContent = videosEncontrados.length;
+  document.getElementById('statAprov').textContent = aprovados.length;
+  document.getElementById('statRej').textContent = rejeitados.length;
+}
+
+function renderAprovados() {
+  const section = document.getElementById('aprovadosSection');
+  const list = document.getElementById('aprovadosList');
+  const count = document.getElementById('aprovadosCount');
+
+  if (aprovados.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  count.textContent = aprovados.length + ' vídeo' + (aprovados.length > 1 ? 's' : '');
+
+  list.innerHTML = '';
+  aprovados.forEach(v => {
+    const item = document.createElement('div');
+    item.style.cssText = 'display:flex;gap:10px;align-items:center;margin:0 16px 8px;background:var(--surface);border:1px solid rgba(0,230,118,0.2);border-radius:12px;padding:10px;';
+    item.innerHTML = `
+      <img src="${v.thumb}" style="width:60px;height:40px;object-fit:cover;border-radius:8px;flex-shrink:0;" onerror="this.style.background='#333'">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.title}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px;">${getTagLabel(v.esporte)} · ${formatViews(v.views)}</div>
+      </div>
+      <button onclick="removerAprovado('${v.id}')" style="background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px;">×</button>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function removerAprovado(id) {
+  aprovados = aprovados.filter(a => a.id !== id);
+  const card = document.getElementById('card-' + id);
+  if (card) {
+    card.classList.remove('aprovado');
+    document.getElementById('actions-' + id).innerHTML = `
+      <button class="btn-aprovar" onclick="aprovar('${id}')">✅ Aprovar</button>
+      <button class="btn-rejeitar" onclick="rejeitar('${id}')">✕ Rejeitar</button>
+      <a class="btn-yt" href="https://youtube.com/watch?v=${id}" target="_blank">▶</a>
+    `;
+  }
+  updateStats();
+  renderAprovados();
+}
+
+function exportarAprovados() {
+  if (aprovados.length === 0) { showToast('Nenhum vídeo aprovado ainda.'); return; }
+  
+  let txt = '=== HighlightZ — Vídeos Aprovados ===\n\n';
+  aprovados.forEach((v, i) => {
+    txt += `${i+1}. [${getTagLabel(v.esporte)}] ${v.title}\n`;
+    txt += `   Canal: ${v.channel}\n`;
+    txt += `   Views: ${formatViews(v.views)}\n`;
+    txt += `   URL: ${v.url}\n\n`;
+  });
+
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'highlightz-aprovados.txt';
+  a.click();
+  showToast('📋 Lista exportada!');
+}
+
+function abrirYT(url) {
+  window.open(url, '_blank');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 2500);
+}
+</script>
+</body>
+</html>
