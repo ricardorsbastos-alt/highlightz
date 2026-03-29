@@ -4,581 +4,129 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>HighlightZ — Curadoria</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --surface2: #1c1c28;
-    --border: rgba(255,255,255,0.08);
-    --text: #f0f0f5;
-    --muted: #6b6b80;
-    --accent: #ff3c3c;
-    --green: #00e676;
-    --yellow: #ffd600;
-  }
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1c1c28;
+  --border: rgba(255,255,255,0.08);
+  --text: #f0f0f5;
+  --muted: #6b6b80;
+  --accent: #ff3c3c;
+  --green: #00e676;
+  --gold: #ffd700;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; max-width:480px; margin:0 auto; min-height:100vh; padding-bottom:40px; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* HEADER */
+.header { padding:20px 16px 12px; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; background:rgba(10,10,15,0.96); backdrop-filter:blur(20px); }
+.header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.logo { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:2px; background:linear-gradient(135deg,#ff3c3c,#ff8c00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.badge { font-size:11px; color:var(--muted); background:var(--surface); padding:4px 10px; border-radius:100px; border:1px solid var(--border); }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    max-width: 480px;
-    margin: 0 auto;
-  }
+/* TABS */
+.tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.tabs::-webkit-scrollbar { display:none; }
+.tab { flex-shrink:0; padding:7px 14px; border-radius:100px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-size:13px; font-weight:500; cursor:pointer; white-space:nowrap; transition:all 0.2s; }
+.tab.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.tab.copa { border-color:rgba(255,215,0,0.4); color:var(--gold); }
+.tab.copa.active { background:linear-gradient(135deg,#b8860b,#ffd700); border-color:var(--gold); color:#000; font-weight:700; }
 
-  /* HEADER */
-  .header {
-    padding: 20px 16px 12px;
-    background: linear-gradient(180deg, rgba(255,60,60,0.12) 0%, transparent 100%);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(20px);
-    background-color: rgba(10,10,15,0.92);
-  }
+/* COPA BANNER */
+.copa-banner { margin:12px 16px 0; border-radius:16px; background:linear-gradient(135deg,#1a1200,#3d2e00); border:1px solid rgba(255,215,0,0.3); padding:14px; }
+.copa-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.copa-title { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:2px; color:var(--gold); }
+.copa-days { font-size:11px; font-weight:700; background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.3); color:var(--gold); padding:4px 10px; border-radius:100px; }
+.copa-sub { font-size:12px; color:rgba(255,215,0,0.6); margin-bottom:10px; }
+.copa-cats { display:flex; gap:6px; flex-wrap:wrap; }
+.copa-cat { padding:6px 12px; border-radius:100px; border:1px solid rgba(255,215,0,0.25); background:rgba(255,215,0,0.08); color:rgba(255,215,0,0.8); font-size:12px; font-weight:500; cursor:pointer; white-space:nowrap; transition:all 0.2s; }
+.copa-cat.active { background:rgba(255,215,0,0.2); border-color:rgba(255,215,0,0.5); color:var(--gold); }
 
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-  }
+/* CONFIG */
+.config { margin:12px 16px 0; background:var(--surface); border-radius:16px; border:1px solid var(--border); overflow:hidden; }
+.config-row { display:flex; align-items:center; gap:10px; padding:11px 14px; border-bottom:1px solid var(--border); }
+.config-row:last-child { border-bottom:none; }
+.config-label { font-size:12px; color:var(--muted); width:65px; flex-shrink:0; font-weight:500; }
+.config-input { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:8px 12px; color:var(--text); font-size:13px; font-family:'DM Sans',sans-serif; outline:none; }
+.config-input:focus { border-color:rgba(255,60,60,0.4); }
+.config-select { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:8px 12px; color:var(--text); font-size:13px; font-family:'DM Sans',sans-serif; outline:none; appearance:none; cursor:pointer; }
 
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, #ff3c3c, #ff8c00);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+/* BUSCAR BTN */
+.btn-buscar { width:calc(100% - 32px); margin:12px 16px 0; padding:14px; background:linear-gradient(135deg,#ff3c3c,#ff6b00); border:none; border-radius:14px; color:#fff; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:2px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:opacity 0.2s; }
+.btn-buscar:disabled { opacity:0.4; cursor:not-allowed; }
 
-  .header-badge {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--muted);
-    background: var(--surface);
-    padding: 4px 10px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-  }
+/* STATS */
+.stats { display:flex; gap:8px; padding:12px 16px 0; }
+.stat { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px 8px; text-align:center; }
+.stat-n { font-family:'Bebas Neue',sans-serif; font-size:22px; }
+.stat-n.y { color:#ffd600; }
+.stat-n.g { color:var(--green); }
+.stat-n.r { color:var(--accent); }
+.stat-l { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-top:2px; }
 
-  /* SPORT TABS */
-  .sport-tabs {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  .sport-tabs::-webkit-scrollbar { display: none; }
+/* LOADING */
+.loading { display:none; flex-direction:column; align-items:center; padding:48px 20px; gap:14px; }
+.loading.show { display:flex; }
+.spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading-txt { font-size:13px; color:var(--muted); text-align:center; line-height:1.6; }
 
-  .tab {
-    flex-shrink: 0;
-    padding: 7px 14px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .tab.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
+/* SECTION */
+.sec-header { display:flex; align-items:center; justify-content:space-between; padding:16px 16px 10px; }
+.sec-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+.sec-count { font-size:12px; color:var(--muted); }
 
-  .tab.copa {
-    background: linear-gradient(135deg, rgba(197,160,0,0.2), rgba(197,160,0,0.1));
-    border-color: rgba(255,215,0,0.4);
-    color: #ffd700;
-  }
-  .tab.copa.active {
-    background: linear-gradient(135deg, #b8860b, #ffd700);
-    border-color: #ffd700;
-    color: #000;
-    font-weight: 700;
-  }
+/* CARDS */
+.card { margin:0 16px 10px; background:var(--surface); border-radius:16px; border:1px solid var(--border); overflow:hidden; animation:up 0.3s ease forwards; }
+.card.aprovado { border-color:rgba(0,230,118,0.3); background:rgba(0,230,118,0.04); }
+@keyframes up { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-  /* COPA BANNER */
-  .copa-banner {
-    margin: 12px 16px 0;
-    border-radius: 16px;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1a1200, #3d2e00, #1a1200);
-    border: 1px solid rgba(255,215,0,0.3);
-    padding: 14px;
-    position: relative;
-  }
-  .copa-banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 80% 50%, rgba(255,215,0,0.08) 0%, transparent 70%);
-  }
-  .copa-banner-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-  .copa-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    letter-spacing: 2px;
-    color: #ffd700;
-  }
-  .copa-countdown {
-    font-size: 11px;
-    font-weight: 700;
-    background: rgba(255,215,0,0.15);
-    border: 1px solid rgba(255,215,0,0.3);
-    color: #ffd700;
-    padding: 4px 10px;
-    border-radius: 100px;
-    letter-spacing: 1px;
-  }
-  .copa-subtitle {
-    font-size: 12px;
-    color: rgba(255,215,0,0.6);
-    margin-bottom: 10px;
-  }
-  .copa-cats {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .copa-cat {
-    padding: 6px 12px;
-    border-radius: 100px;
-    border: 1px solid rgba(255,215,0,0.25);
-    background: rgba(255,215,0,0.08);
-    color: rgba(255,215,0,0.8);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .copa-cat:hover, .copa-cat.active {
-    background: rgba(255,215,0,0.2);
-    border-color: rgba(255,215,0,0.5);
-    color: #ffd700;
-  }
-  .tag-copa { background: rgba(184,134,11,0.9); color: #000; }
+.thumb { position:relative; width:100%; padding-top:56.25%; background:var(--surface2); cursor:pointer; }
+.thumb img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.2); }
+.play-circle { width:44px; height:44px; background:rgba(255,255,255,0.2); backdrop-filter:blur(10px); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; border:1px solid rgba(255,255,255,0.3); }
+.thumb-dur { position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.85); color:#fff; font-size:11px; font-weight:600; padding:2px 6px; border-radius:4px; }
+.sport-tag { position:absolute; top:8px; left:8px; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; border-radius:100px; color:#fff; }
+.tag-copa { background:rgba(184,134,11,0.9); }
+.tag-futebol { background:rgba(0,180,70,0.85); }
+.tag-futmundo { background:rgba(33,150,243,0.85); }
+.tag-nba { background:rgba(200,16,46,0.85); }
+.tag-f1 { background:rgba(255,140,0,0.85); }
+.tag-ufc { background:rgba(180,150,20,0.85); }
 
-  /* SEARCH CONFIG */
-  .config-panel {
-    margin: 12px 16px;
-    background: var(--surface);
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
+.card-body { padding:12px 14px; }
+.card-title { font-size:14px; font-weight:600; color:var(--text); line-height:1.4; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.card-meta { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+.meta { font-size:11px; color:var(--muted); }
+.meta.views { color:#ffd600; font-weight:600; }
+.card-actions { display:flex; gap:8px; }
+.btn-ok { flex:1; padding:9px; background:rgba(0,230,118,0.15); border:1px solid rgba(0,230,118,0.3); border-radius:10px; color:var(--green); font-size:13px; font-weight:600; cursor:pointer; }
+.btn-no { flex:1; padding:9px; background:rgba(255,60,60,0.1); border:1px solid rgba(255,60,60,0.2); border-radius:10px; color:var(--accent); font-size:13px; font-weight:600; cursor:pointer; }
+.btn-yt { padding:9px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; color:var(--muted); font-size:13px; cursor:pointer; text-decoration:none; display:flex; align-items:center; }
+.status-ok { width:100%; padding:8px; border-radius:10px; font-size:13px; font-weight:600; text-align:center; background:rgba(0,230,118,0.1); color:var(--green); border:1px solid rgba(0,230,118,0.2); }
 
-  .config-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--border);
-  }
-  .config-row:last-child { border-bottom: none; }
+/* EMPTY */
+.empty { text-align:center; padding:40px 32px; color:var(--muted); font-size:14px; line-height:1.6; }
+.empty-icon { font-size:36px; opacity:0.3; margin-bottom:10px; }
 
-  .config-label {
-    font-size: 12px;
-    color: var(--muted);
-    width: 70px;
-    flex-shrink: 0;
-    font-weight: 500;
-  }
+/* EXPORT */
+.btn-export { width:calc(100% - 32px); margin:4px 16px 0; padding:14px; background:linear-gradient(135deg,#00c853,#009624); border:none; border-radius:14px; color:#fff; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:2px; cursor:pointer; display:none; }
 
-  .config-input {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: var(--text);
-    font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
-    outline: none;
-  }
-  .config-input:focus { border-color: rgba(255,60,60,0.4); }
+/* MODAL */
+.modal { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:200; display:none; align-items:center; justify-content:center; padding:16px; }
+.modal.show { display:flex; }
+.modal-inner { width:100%; max-width:440px; background:var(--surface); border-radius:20px; overflow:hidden; border:1px solid var(--border); }
+.modal-header { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--border); }
+.modal-title { font-size:14px; font-weight:600; color:var(--text); flex:1; margin-right:10px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.modal-close { width:32px; height:32px; background:var(--surface2); border:none; border-radius:50%; color:var(--muted); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.modal-video { width:100%; aspect-ratio:16/9; background:#000; }
+.modal-video iframe { width:100%; height:100%; border:none; }
+.modal-actions { display:flex; gap:8px; padding:12px 16px; }
 
-  .config-select {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: var(--text);
-    font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
-    outline: none;
-    appearance: none;
-    cursor: pointer;
-  }
-
-  .btn-buscar {
-    width: calc(100% - 32px);
-    margin: 0 16px 12px;
-    padding: 14px;
-    background: linear-gradient(135deg, #ff3c3c, #ff6b00);
-    border: none;
-    border-radius: 14px;
-    color: #fff;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .btn-buscar:hover { opacity: 0.9; transform: translateY(-1px); }
-  .btn-buscar:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-  /* STATS BAR */
-  .stats-bar {
-    display: flex;
-    gap: 8px;
-    padding: 0 16px 12px;
-  }
-
-  .stat-chip {
-    flex: 1;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 8px;
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 1px;
-  }
-  .stat-num.green { color: var(--green); }
-  .stat-num.red { color: var(--accent); }
-  .stat-num.yellow { color: var(--yellow); }
-
-  .stat-label {
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 2px;
-  }
-
-  /* SECTION HEADER */
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px 10px;
-  }
-
-  .section-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .section-count {
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  /* VIDEO CARD */
-  .video-card {
-    margin: 0 16px 10px;
-    background: var(--surface);
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    transition: all 0.2s;
-    animation: fadeUp 0.3s ease forwards;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .video-card.aprovado {
-    border-color: rgba(0,230,118,0.3);
-    background: rgba(0,230,118,0.05);
-  }
-
-  .video-card.rejeitado {
-    opacity: 0.3;
-    border-color: rgba(255,60,60,0.2);
-  }
-
-  .thumb-wrap {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%;
-    background: var(--surface2);
-    cursor: pointer;
-  }
-
-  .thumb-wrap img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .thumb-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .play-btn {
-    width: 48px; height: 48px;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    border: 1px solid rgba(255,255,255,0.3);
-    transition: all 0.2s;
-  }
-
-  .thumb-duration {
-    position: absolute;
-    bottom: 8px; right: 8px;
-    background: rgba(0,0,0,0.8);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
-  .sport-tag {
-    position: absolute;
-    top: 8px; left: 8px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 100px;
-    color: #fff;
-  }
-
-  .tag-futebol { background: rgba(0,200,83,0.8); }
-  .tag-futmundo { background: rgba(33,150,243,0.8); }
-  .tag-nba { background: rgba(200,16,46,0.8); }
-  .tag-f1 { background: rgba(255,140,0,0.8); }
-  .tag-ufc { background: rgba(212,175,55,0.8); }
-
-  .card-body { padding: 12px 14px; }
-
-  .card-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.4;
-    margin-bottom: 6px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .card-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
-
-  .meta-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .views-highlight {
-    color: var(--yellow);
-    font-weight: 600;
-  }
-
-  /* ACTION BUTTONS */
-  .card-actions {
-    display: flex;
-    gap: 8px;
-  }
-
-  .btn-aprovar {
-    flex: 1;
-    padding: 10px;
-    background: rgba(0,230,118,0.15);
-    border: 1px solid rgba(0,230,118,0.3);
-    border-radius: 10px;
-    color: var(--green);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .btn-aprovar:hover { background: rgba(0,230,118,0.25); }
-
-  .btn-rejeitar {
-    flex: 1;
-    padding: 10px;
-    background: rgba(255,60,60,0.1);
-    border: 1px solid rgba(255,60,60,0.2);
-    border-radius: 10px;
-    color: var(--accent);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .btn-rejeitar:hover { background: rgba(255,60,60,0.2); }
-
-  .btn-yt {
-    padding: 10px 14px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--muted);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .status-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    width: 100%;
-  }
-  .status-aprovado { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
-  .status-rejeitado { background: rgba(255,60,60,0.08); color: var(--accent); border: 1px solid rgba(255,60,60,0.15); }
-
-  /* LOADING */
-  .loading {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 20px;
-    gap: 16px;
-  }
-  .loading.show { display: flex; }
-
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-text {
-    font-size: 13px;
-    color: var(--muted);
-    text-align: center;
-    line-height: 1.6;
-  }
-
-  /* EMPTY STATE */
-  .empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 48px 32px;
-    text-align: center;
-    gap: 10px;
-  }
-
-  .empty-icon { font-size: 40px; opacity: 0.3; }
-  .empty-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
-
-  /* APROVADOS SECTION */
-  .aprovados-section {
-    margin-top: 8px;
-    padding-bottom: 32px;
-  }
-
-  .section-divider {
-    margin: 16px 16px 12px;
-    border: none;
-    border-top: 1px solid var(--border);
-  }
-
-  /* TOAST */
-  #toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: rgba(30,30,40,0.95);
-    backdrop-filter: blur(20px);
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 10px 20px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    opacity: 0;
-    transition: all 0.3s;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 999;
-    max-width: 90vw;
-    text-align: center;
-  }
+/* TOAST */
+#toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:rgba(20,20,30,0.97); backdrop-filter:blur(20px); color:var(--text); font-size:13px; font-weight:500; padding:10px 20px; border-radius:100px; border:1px solid var(--border); opacity:0; transition:all 0.3s; pointer-events:none; z-index:999; white-space:nowrap; max-width:90vw; text-align:center; }
 </style>
 </head>
 <body>
@@ -586,51 +134,46 @@
 <div class="header">
   <div class="header-top">
     <div class="logo">HighlightZ</div>
-    <div class="header-badge">⚙️ Painel de Curadoria</div>
+    <div class="badge">⚙️ Curadoria</div>
   </div>
-
-  <div class="sport-tabs">
-    <div class="tab copa active" onclick="setEsporte(this, 'copa', 'FIFA World Cup 2026 highlights goals best moments')">🏆 Copa 2026</div>
-    <div class="tab" onclick="setEsporte(this, 'futebol', 'melhores momentos brasileirao highlights')">⚽ Futebol BR</div>
-    <div class="tab" onclick="setEsporte(this, 'futmundo', 'football highlights champions league premier league goals')">🌍 Fut. Mundo</div>
-    <div class="tab" onclick="setEsporte(this, 'nba', 'NBA highlights best moments')">🏀 NBA</div>
-    <div class="tab" onclick="setEsporte(this, 'f1', 'formula 1 melhores momentos highlights')">🏎️ F1</div>
-    <div class="tab" onclick="setEsporte(this, 'ufc', 'UFC highlights knockouts best moments')">🥊 UFC</div>
+  <div class="tabs">
+    <div class="tab copa active" onclick="setEsporte(this,'copa','FIFA World Cup 2026 highlights goals best moments')">🏆 Copa 2026</div>
+    <div class="tab" onclick="setEsporte(this,'futebol','brasileirao melhores momentos highlights gols')">⚽ Futebol BR</div>
+    <div class="tab" onclick="setEsporte(this,'futmundo','champions league premier league highlights goals')">🌍 Fut. Mundo</div>
+    <div class="tab" onclick="setEsporte(this,'nba','NBA highlights best moments dunks')">🏀 NBA</div>
+    <div class="tab" onclick="setEsporte(this,'f1','formula 1 race highlights best moments 2026')">🏎️ F1</div>
+    <div class="tab" onclick="setEsporte(this,'ufc','UFC highlights knockouts submissions 2026')">🥊 UFC</div>
   </div>
 </div>
 
-<div style="height:12px"></div>
-
-<!-- COPA 2026 BANNER -->
-<div class="copa-banner" id="copaBanner">
-  <div class="copa-banner-top">
+<!-- COPA BANNER -->
+<div id="copaBanner" class="copa-banner">
+  <div class="copa-top">
     <div class="copa-title">🏆 Copa do Mundo 2026</div>
-    <div class="copa-countdown" id="copaCountdown">...</div>
+    <div class="copa-days" id="copaCountdown">...</div>
   </div>
-  <div class="copa-subtitle">EUA · México · Canadá — Junho/Julho 2026</div>
+  <div class="copa-sub">EUA · México · Canadá — Junho/Julho 2026</div>
   <div class="copa-cats">
-    <div class="copa-cat active" onclick="setCopaCat(this, 'FIFA World Cup 2026 highlights goals best moments')">⚽ Geral</div>
-    <div class="copa-cat" onclick="setCopaCat(this, 'World Cup 2026 Brazil highlights gols')">🇧🇷 Brasil</div>
-    <div class="copa-cat" onclick="setCopaCat(this, 'World Cup 2026 Argentina highlights gols')">🇦🇷 Argentina</div>
-    <div class="copa-cat" onclick="setCopaCat(this, 'World Cup 2026 Portugal France highlights')">🇵🇹 Europa</div>
-    <div class="copa-cat" onclick="setCopaCat(this, 'eliminatorias copa mundo 2026 melhores momentos')">🌎 Eliminatórias</div>
-    <div class="copa-cat" onclick="setCopaCat(this, 'World Cup 2026 group stage highlights')">📋 Fase de Grupos</div>
+    <div class="copa-cat active" onclick="setCopaCat(this,'FIFA World Cup 2026 highlights goals best moments')">⚽ Geral</div>
+    <div class="copa-cat" onclick="setCopaCat(this,'World Cup 2026 Brazil Brasil highlights gols selecao')">🇧🇷 Brasil</div>
+    <div class="copa-cat" onclick="setCopaCat(this,'World Cup 2026 Argentina Messi highlights gols')">🇦🇷 Argentina</div>
+    <div class="copa-cat" onclick="setCopaCat(this,'eliminatorias copa mundo 2026 melhores momentos gols')">🌎 Eliminatórias</div>
+    <div class="copa-cat" onclick="setCopaCat(this,'World Cup 2026 group stage highlights goals')">📋 Fase de Grupos</div>
   </div>
 </div>
 
 <!-- CONFIG -->
-<div class="config-panel">
+<div class="config">
   <div class="config-row">
     <div class="config-label">Busca</div>
-    <input class="config-input" id="queryInput" value="melhores momentos brasileirao highlights" placeholder="termo de busca...">
+    <input class="config-input" id="queryInput" value="FIFA World Cup 2026 highlights goals best moments">
   </div>
   <div class="config-row">
     <div class="config-label">Ordenar</div>
     <select class="config-select" id="orderSelect">
       <option value="relevance">Relevância</option>
-      <option value="viewCount">Mais visualizados</option>
+      <option value="viewCount">Mais vistos</option>
       <option value="date">Mais recentes</option>
-      <option value="rating">Melhor avaliados</option>
     </select>
   </div>
   <div class="config-row">
@@ -642,58 +185,54 @@
       <option value="365">Último ano</option>
     </select>
   </div>
-  <div class="config-row">
-    <div class="config-label">Duração</div>
-    <select class="config-select" id="duracaoSelect">
-      <option value="medium">Média (4–20 min)</option>
-      <option value="short">Curta (até 4 min)</option>
-      <option value="long">Longa (20+ min)</option>
-      <option value="any">Qualquer</option>
-    </select>
-  </div>
 </div>
 
-<button class="btn-buscar" id="btnBuscar" onclick="buscarVideos()">
-  🔍 BUSCAR HIGHLIGHTS
-</button>
+<button class="btn-buscar" id="btnBuscar" onclick="buscar()">🔍 BUSCAR HIGHLIGHTS</button>
 
 <!-- STATS -->
-<div class="stats-bar" id="statsBar" style="display:none">
-  <div class="stat-chip">
-    <div class="stat-num yellow" id="statTotal">0</div>
-    <div class="stat-label">Encontrados</div>
-  </div>
-  <div class="stat-chip">
-    <div class="stat-num green" id="statAprov">0</div>
-    <div class="stat-label">Aprovados</div>
-  </div>
-  <div class="stat-chip">
-    <div class="stat-num red" id="statRej">0</div>
-    <div class="stat-label">Rejeitados</div>
-  </div>
+<div class="stats" id="statsBar" style="display:none">
+  <div class="stat"><div class="stat-n y" id="sTotal">0</div><div class="stat-l">Encontrados</div></div>
+  <div class="stat"><div class="stat-n g" id="sAprov">0</div><div class="stat-l">Aprovados</div></div>
+  <div class="stat"><div class="stat-n r" id="sRej">0</div><div class="stat-l">Rejeitados</div></div>
 </div>
 
 <!-- LOADING -->
 <div class="loading" id="loading">
   <div class="spinner"></div>
-  <div class="loading-text">Buscando os melhores highlights<br>no YouTube...</div>
+  <div class="loading-txt">Buscando highlights no YouTube...</div>
 </div>
 
 <!-- RESULTS -->
+<div id="secHeader" style="display:none" class="sec-header">
+  <div class="sec-title">📋 Para revisão</div>
+  <div class="sec-count" id="secCount"></div>
+</div>
 <div id="results"></div>
 
 <!-- APROVADOS -->
-<div class="aprovados-section" id="aprovadosSection" style="display:none">
-  <hr class="section-divider">
-  <div class="section-header">
-    <div class="section-title">✅ Aprovados para o App</div>
-    <div class="section-count" id="aprovadosCount">0 vídeos</div>
+<div id="aprovSec" style="display:none">
+  <div class="sec-header">
+    <div class="sec-title">✅ Aprovados</div>
+    <div class="sec-count" id="aprovCount"></div>
   </div>
-  <div id="aprovadosList"></div>
-  <div style="padding: 12px 16px 0;">
-    <button class="btn-buscar" onclick="exportarAprovados()" style="background: linear-gradient(135deg, #00c853, #009624);">
-      📋 EXPORTAR LISTA
-    </button>
+  <div id="aprovList"></div>
+  <button class="btn-export" id="exportBtn" onclick="exportar()">📋 EXPORTAR LISTA</button>
+</div>
+
+<!-- MODAL PLAYER -->
+<div class="modal" id="modal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="modal-close" onclick="fecharModal()">✕</button>
+    </div>
+    <div class="modal-video">
+      <iframe id="modalIframe" src="" allowfullscreen allow="autoplay"></iframe>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ok" id="modalAprovar" onclick="aprovarModal()">✅ Aprovar</button>
+      <button class="btn-no" onclick="fecharModal()">✕ Rejeitar</button>
+    </div>
   </div>
 </div>
 
@@ -701,18 +240,20 @@
 
 <script>
 const API_KEY = 'AIzaSyC-XOp3H-psfOVcDXCMqvyfPVREO-01-s0';
-let esporteAtivo = 'copa';
+let esporte = 'copa';
+let encontrados = [];
 let aprovados = [];
 let rejeitados = [];
-let videosEncontrados = [];
+let videoAtual = null;
 
-function setEsporte(el, esporte, query) {
+const labels = { copa:'🏆 Copa 2026', futebol:'⚽ Futebol BR', futmundo:'🌍 Fut. Mundo', nba:'🏀 NBA', f1:'🏎️ F1', ufc:'🥊 UFC' };
+
+function setEsporte(el, esp, query) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  esporteAtivo = esporte;
+  esporte = esp;
   document.getElementById('queryInput').value = query;
-  // Mostra/esconde banner Copa
-  document.getElementById('copaBanner').style.display = esporte === 'copa' ? 'block' : 'none';
+  document.getElementById('copaBanner').style.display = esp === 'copa' ? 'block' : 'none';
 }
 
 function setCopaCat(el, query) {
@@ -721,51 +262,238 @@ function setCopaCat(el, query) {
   document.getElementById('queryInput').value = query;
 }
 
-function calcCountdown() {
-  const copa = new Date('2026-06-11T00:00:00');
-  const now = new Date();
-  const diff = copa - now;
-  if (diff <= 0) { document.getElementById('copaCountdown').textContent = '🏆 Em andamento!'; return; }
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  document.getElementById('copaCountdown').textContent = `⏳ ${days} dias`;
+function diasParaCopa() {
+  const d = Math.floor((new Date('2026-06-11') - new Date()) / 86400000);
+  document.getElementById('copaCountdown').textContent = d > 0 ? `⏳ ${d} dias` : '🏆 Em andamento!';
 }
 
-// Init
-calcCountdown();
-document.getElementById('copaBanner').style.display = 'block';
-
-function getTagClass(esporte) {
-  const map = { futebol: 'tag-futebol', futmundo: 'tag-futmundo', copa: 'tag-copa', nba: 'tag-nba', f1: 'tag-f1', ufc: 'tag-ufc' };
-  return map[esporte] || 'tag-futebol';
-}
-
-function getTagLabel(esporte) {
-  const map = { futebol: '⚽ Futebol BR', futmundo: '🌍 Fut. Mundo', copa: '🏆 Copa 2026', nba: '🏀 NBA', f1: '🏎️ F1', ufc: '🥊 UFC' };
-  return map[esporte] || esporte;
-}
-
-function formatViews(n) {
-  if (!n) return '—';
+function fmt(n) {
+  if (!n) return '';
   n = parseInt(n);
   if (n >= 1000000) return (n/1000000).toFixed(1) + 'M views';
-  if (n >= 1000) return (n/1000).toFixed(0) + 'k views';
+  if (n >= 1000) return Math.round(n/1000) + 'k views';
   return n + ' views';
 }
 
-function formatDate(str) {
-  if (!str) return '';
-  const d = new Date(str);
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+function fmtDur(iso) {
+  if (!iso) return '';
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!m) return '';
+  const h = +m[1]||0, min = +m[2]||0, s = +m[3]||0;
+  return h ? `${h}:${String(min).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${min}:${String(s).padStart(2,'0')}`;
 }
 
-function getPublishedAfter(dias) {
+function afterDate(days) {
   const d = new Date();
-  d.setDate(d.getDate() - parseInt(dias));
+  d.setDate(d.getDate() - days);
   return d.toISOString();
 }
 
-async function buscarVideos() {
+async function buscar() {
   const query = document.getElementById('queryInput').value.trim();
   if (!query) return;
 
-  const order = document.getEleme
+  const order = document.getElementById('orderSelect').value;
+  const periodo = document.getElementById('periodoSelect').value;
+
+  document.getElementById('btnBuscar').disabled = true;
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('statsBar').style.display = 'none';
+  document.getElementById('secHeader').style.display = 'none';
+  encontrados = []; rejeitados = [];
+
+  try {
+    // Chamada 1: busca
+    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&order=${order}&publishedAfter=${afterDate(periodo)}&videoDuration=medium&maxResults=10&key=${API_KEY}`;
+    
+    const r1 = await fetch(searchUrl);
+    const d1 = await r1.json();
+
+    if (d1.error) { toast('Erro: ' + d1.error.message); throw new Error(); }
+    if (!d1.items?.length) { toast('Nenhum vídeo encontrado.'); throw new Error(); }
+
+    const ids = d1.items.map(i => i.id.videoId).filter(Boolean).join(',');
+
+    // Chamada 2: detalhes
+    const detailUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${ids}&key=${API_KEY}`;
+    const r2 = await fetch(detailUrl);
+    const d2 = await r2.json();
+
+    const details = {};
+    (d2.items || []).forEach(i => details[i.id] = i);
+
+    encontrados = d1.items.map(item => {
+      const id = item.id.videoId;
+      const det = details[id] || {};
+      return {
+        id,
+        title: item.snippet.title,
+        channel: item.snippet.channelTitle,
+        thumb: item.snippet.thumbnails?.high?.url,
+        views: det.statistics?.viewCount,
+        duration: fmtDur(det.contentDetails?.duration),
+        esporte: esporte,
+        url: `https://www.youtube.com/watch?v=${id}`
+      };
+    }).filter(v => v.id);
+
+    renderResults();
+    document.getElementById('statsBar').style.display = 'flex';
+    document.getElementById('secHeader').style.display = 'flex';
+    document.getElementById('secCount').textContent = encontrados.length + ' vídeos';
+    updateStats();
+
+  } catch(e) {
+    if (e.message) toast('Erro de conexão. Tente novamente.');
+  }
+
+  document.getElementById('loading').classList.remove('show');
+  document.getElementById('btnBuscar').disabled = false;
+}
+
+function renderResults() {
+  const c = document.getElementById('results');
+  c.innerHTML = '';
+  encontrados.forEach((v, i) => {
+    if (rejeitados.includes(v.id)) return;
+    const isAprov = aprovados.find(a => a.id === v.id);
+    const card = document.createElement('div');
+    card.className = 'card' + (isAprov ? ' aprovado' : '');
+    card.id = 'card-' + v.id;
+    card.style.animationDelay = (i*0.05) + 's';
+    card.innerHTML = `
+      <div class="thumb" onclick="abrirModal('${v.id}','${v.title.replace(/'/g,"\\'")}')">
+        <img src="${v.thumb}" loading="lazy" onerror="this.style.opacity=0">
+        <div class="thumb-play"><div class="play-circle">▶</div></div>
+        ${v.duration ? `<div class="thumb-dur">${v.duration}</div>` : ''}
+        <div class="sport-tag tag-${v.esporte}">${labels[v.esporte]||v.esporte}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${v.title}</div>
+        <div class="card-meta">
+          <span class="meta">📺 ${v.channel}</span>
+          ${v.views ? `<span class="meta views">👁 ${fmt(v.views)}</span>` : ''}
+        </div>
+        <div class="card-actions" id="act-${v.id}">
+          ${isAprov
+            ? `<div class="status-ok">✅ Aprovado para o app</div>`
+            : `<button class="btn-ok" onclick="aprovar('${v.id}')">✅ Aprovar</button>
+               <button class="btn-no" onclick="rejeitar('${v.id}')">✕ Rejeitar</button>
+               <a class="btn-yt" href="${v.url}" target="_blank">▶</a>`
+          }
+        </div>
+      </div>`;
+    c.appendChild(card);
+  });
+}
+
+function abrirModal(id, title) {
+  videoAtual = id;
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalIframe').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+  document.getElementById('modal').classList.add('show');
+  // Atualiza botão do modal
+  const isAprov = aprovados.find(a => a.id === id);
+  document.getElementById('modalAprovar').textContent = isAprov ? '✅ Já aprovado' : '✅ Aprovar';
+  document.getElementById('modalAprovar').disabled = !!isAprov;
+}
+
+function fecharModal() {
+  document.getElementById('modal').classList.remove('show');
+  document.getElementById('modalIframe').src = '';
+  videoAtual = null;
+}
+
+function aprovarModal() {
+  if (videoAtual) { aprovar(videoAtual); fecharModal(); }
+}
+
+function aprovar(id) {
+  const v = encontrados.find(x => x.id === id);
+  if (!v || aprovados.find(a => a.id === id)) return;
+  aprovados.push(v);
+  const act = document.getElementById('act-' + id);
+  if (act) act.innerHTML = `<div class="status-ok">✅ Aprovado para o app</div>`;
+  document.getElementById('card-' + id)?.classList.add('aprovado');
+  updateStats();
+  renderAprovados();
+  toast('✅ ' + v.title.substring(0,50) + '...');
+}
+
+function rejeitar(id) {
+  rejeitados.push(id);
+  const card = document.getElementById('card-' + id);
+  if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = 'all 0.3s'; setTimeout(() => card.remove(), 300); }
+  updateStats();
+  toast('Vídeo removido da lista.');
+}
+
+function updateStats() {
+  document.getElementById('sTotal').textContent = encontrados.length;
+  document.getElementById('sAprov').textContent = aprovados.length;
+  document.getElementById('sRej').textContent = rejeitados.length;
+}
+
+function renderAprovados() {
+  const sec = document.getElementById('aprovSec');
+  const list = document.getElementById('aprovList');
+  const btn = document.getElementById('exportBtn');
+  const count = document.getElementById('aprovCount');
+  if (!aprovados.length) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+  btn.style.display = 'block';
+  count.textContent = aprovados.length + ' vídeo' + (aprovados.length > 1 ? 's' : '');
+  list.innerHTML = '';
+  aprovados.forEach(v => {
+    const el = document.createElement('div');
+    el.style.cssText = 'display:flex;gap:10px;align-items:center;margin:0 16px 8px;background:var(--surface);border:1px solid rgba(0,230,118,0.2);border-radius:12px;padding:10px;cursor:pointer;';
+    el.onclick = () => abrirModal(v.id, v.title);
+    el.innerHTML = `
+      <img src="${v.thumb}" style="width:64px;height:40px;object-fit:cover;border-radius:8px;flex-shrink:0;">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.title}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px;">${labels[v.esporte]} · ${fmt(v.views)}</div>
+      </div>
+      <button onclick="event.stopPropagation();removerAprov('${v.id}')" style="background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px;flex-shrink:0;">×</button>`;
+    list.appendChild(el);
+  });
+}
+
+function removerAprov(id) {
+  aprovados = aprovados.filter(a => a.id !== id);
+  const act = document.getElementById('act-' + id);
+  if (act) {
+    const v = encontrados.find(x => x.id === id);
+    if (v) act.innerHTML = `<button class="btn-ok" onclick="aprovar('${id}')">✅ Aprovar</button><button class="btn-no" onclick="rejeitar('${id}')">✕ Rejeitar</button><a class="btn-yt" href="${v.url}" target="_blank">▶</a>`;
+    document.getElementById('card-' + id)?.classList.remove('aprovado');
+  }
+  updateStats();
+  renderAprovados();
+}
+
+function exportar() {
+  if (!aprovados.length) return;
+  let txt = '=== HighlightZ — Vídeos Aprovados ===\n\n';
+  aprovados.forEach((v, i) => {
+    txt += `${i+1}. [${labels[v.esporte]}] ${v.title}\n   Canal: ${v.channel}\n   Views: ${fmt(v.views)}\n   URL: ${v.url}\n\n`;
+  });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([txt], {type:'text/plain'}));
+  a.download = 'highlightz-aprovados.txt';
+  a.click();
+  toast('📋 Lista exportada!');
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(() => { t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2500);
+}
+
+diasParaCopa();
+</script>
+</body>
+</html>
